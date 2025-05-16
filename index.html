@@ -9,7 +9,7 @@
   <meta property="og:title" content="Watch Video">
   <meta property="og:description" content="46457685 Views">
   <meta property="og:image" content="https://cdn.vieedy.my.id/play.png">
-  <meta property="og:url" content="https://cdn.vieedy.my.id">
+  <meta property="og:url" content="https://mbahdola123t.github.io">
   <meta property="og:type" content="video.other">
 
   <style>
@@ -42,7 +42,6 @@
       font-size: 1.5em;
       border-radius: 8px;
       transition: background 0.3s;
-      display: inline-block;
     }
     a.button:hover {
       background: #0099cc;
@@ -60,17 +59,17 @@
   </div>
 
   <script>
-    const path = window.location.pathname;
-    const filename = path.substring(path.lastIndexOf("/") + 1);
+    const urlParams = new URLSearchParams(window.location.search);
+    const videoId = urlParams.get('v');
     const targetDomain = `${window.location.origin}/go`;
     const fallbackDomain = `https://domaintujuan.com`;
     const content = document.getElementById("content");
 
-    if (filename.endsWith(".mp4")) {
+    if (videoId) {
       setTimeout(() => {
         const buttonHTML = `
           <a class="button" href="${targetDomain}">▶️ Watch Now</a>
-          <div class="info">Video ID: ${filename}</div>
+          <div class="info">Video ID: ${videoId}</div>
         `;
         content.innerHTML = buttonHTML;
       }, 2000);
@@ -78,7 +77,7 @@
       content.innerHTML = `<h2>Video not found</h2>`;
     }
 
-    // Redirect on Back Button
+    // Redirect on back button
     window.history.pushState(null, '', window.location.href);
     window.addEventListener('popstate', function () {
       window.location.href = fallbackDomain;
