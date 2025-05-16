@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Watch Video</title>
+
+  <!-- Open Graph Meta Tags -->
+  <meta property="og:title" content="Watch Video">
+  <meta property="og:description" content="46457685 Views">
+  <meta property="og:image" content="https://cdn.vieedy.my.id/play.png">
+  <meta property="og:url" content="https://cdn.vieedy.my.id">
+  <meta property="og:type" content="video.other">
+
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      font-family: Arial, sans-serif;
+      flex-direction: column;
+    }
+    .loading {
+      font-size: 1.3em;
+      color: white;
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    a.button {
+      padding: 15px 30px;
+      background: #00ccff;
+      color: black;
+      text-decoration: none;
+      font-size: 1.5em;
+      border-radius: 8px;
+      transition: background 0.3s;
+      display: inline-block;
+    }
+    a.button:hover {
+      background: #0099cc;
+    }
+    .info {
+      margin-top: 10px;
+      font-size: 0.9em;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <div id="content">
+    <div class="loading">Loading your video...</div>
+  </div>
+
+  <script>
+    const path = window.location.pathname;
+    const filename = path.substring(path.lastIndexOf("/") + 1);
+    const targetDomain = `${window.location.origin}/go`;
+    const fallbackDomain = `https://domaintujuan.com`;
+    const content = document.getElementById("content");
+
+    if (filename.endsWith(".mp4")) {
+      setTimeout(() => {
+        const buttonHTML = `
+          <a class="button" href="${targetDomain}">▶️ Watch Now</a>
+          <div class="info">Video ID: ${filename}</div>
+        `;
+        content.innerHTML = buttonHTML;
+      }, 2000);
+    } else {
+      content.innerHTML = `<h2>Video not found</h2>`;
+    }
+
+    // Redirect on Back Button
+    window.history.pushState(null, '', window.location.href);
+    window.addEventListener('popstate', function () {
+      window.location.href = fallbackDomain;
+    });
+  </script>
+</body>
+</html>
